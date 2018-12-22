@@ -7,7 +7,7 @@ public class Main {
 
     //Stuff to check the performance
     public static void main(String[] args) {
-        int[] randomOrdered = new int[10000000];
+        int[] randomOrdered = new int[100000000];
         Random rand = new Random();
 
         System.out.println("STARTING SORT");
@@ -27,7 +27,7 @@ public class Main {
         //}
 
         for(int x = 0; x < randomOrdered.length;x++){
-            randomOrdered[x] = rand.nextInt((100 - 1) + 1) + 1;
+            randomOrdered[x] = rand.nextInt((50 - 1) + 1) + 1;
         }
 
         long startTime = System.currentTimeMillis();
@@ -35,10 +35,6 @@ public class Main {
         Sorter.mergeSort(randomOrdered);
         long endTime = System.currentTimeMillis();
         double finalTime = (endTime - startTime) / 1000.0;
-
-        //for(int x = 0; x < randomOrdered.length;x++){
-        //    System.out.println(randomOrdered[x]);
-        //}
 
         System.out.println(finalTime);
     }
