@@ -14,7 +14,7 @@ public class Sorter {
         if(lowBound < highBound) {
             int middle = (lowBound + highBound)/2;
 
-            if((highBound - lowBound) <= 5){
+            if((highBound - lowBound) <= 43){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 mergeDivider(array, lowBound, middle);
@@ -59,7 +59,7 @@ public class Sorter {
             int before = x - 1;
             while(before >= left && array[before] > temp){
                 array[before+1] = array[before];
-                before = before - 1;
+                before--;
             }
             array[before+1] = temp;
         }
@@ -72,7 +72,7 @@ public class Sorter {
             int before = x - 1;
             while(before >= 0 && array[before] > current){
                 array[before+1] = array[before];
-                before = before - 1;
+                before--;
             }
             array[before+1] = current;
         }

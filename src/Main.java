@@ -1,12 +1,13 @@
 import sorting.Sorter;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
 
     //Stuff to check the performance
     public static void main(String[] args) {
-        int[] randomOrdered = new int[10000000];
+        int[] randomOrdered = new int[100000000];
         Random rand = new Random();
 
         System.out.println("STARTING SORT");
