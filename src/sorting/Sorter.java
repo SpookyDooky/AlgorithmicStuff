@@ -4,14 +4,16 @@ public class Sorter {
 
 
     public static void mergeSort(int[] array) {
-        mergeDivider(array,0,array.length-1);
+        mergeDivider(array,0,(array.length-1)/2);
+        mergeDivider(array,((array.length - 1)/2) +1, array.length -1);
+        mergeSortMerger(array,0,(array.length-1)/2,array.length-1);
     }
 
     private static void mergeDivider(int[] array, int lowBound, int highBound) {
         if(lowBound < highBound) {
             int middle = (lowBound + highBound)/2;
 
-            if((highBound - lowBound) <= 43){
+            if((highBound - lowBound) <= 47){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 //Normal divide and conquer
@@ -21,6 +23,7 @@ public class Sorter {
                 if(array[middle] > array[middle + 1]){
                     mergeSortMerger(array, lowBound, middle, highBound);
                 }
+
             }
         }
     }
