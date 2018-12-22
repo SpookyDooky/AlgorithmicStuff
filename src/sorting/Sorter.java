@@ -4,50 +4,99 @@ public class Sorter {
 
 
     public static void mergeSort(int[] array) {
-        mergeDivider(array,0,(array.length-1)/2);
-        mergeDivider(array,((array.length - 1)/2) +1, array.length -1);
-        mergeSortMerger(array,0,(array.length-1)/2,array.length-1);
+        mergeDivider2(array,0,array.length-1);
     }
 
-    private static void mergeDivider(int[] array, int lowBound, int highBound) {
-        if(lowBound < highBound) {
-            int middle = (lowBound + highBound)/2;
+    private static void mergeDivider2(int[] array, int lowBound, int highBound) {
+        if(lowBound < highBound){
+            int iFirst = (highBound - lowBound)/3 + lowBound;
+            int iSecond =(highBound - iFirst)/2 + iFirst;
 
-            if((highBound - lowBound) <= 47){
+            if((highBound - lowBound) <= -1){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 //Normal divide and conquer
-                mergeDivider(array, lowBound, middle);
-                mergeDivider(array, middle + 1, highBound);
+                mergeDivider2(array,lowBound,iFirst);
+                mergeDivider2(array,iFirst,iSecond);
+                mergeDivider2(array,iSecond,highBound);
 
-                if(array[middle] > array[middle + 1]){
-                    mergeSortMerger(array, lowBound, middle, highBound);
-                }
-
+                triplePartionMerger(array,lowBound,iFirst,iSecond,highBound);
             }
         }
     }
 
-    //Merge method
-    private static void mergeSortMerger(int[] array, int lowBound, int middle, int highBound) {
-        int left_index = lowBound, right_index = middle + 1,temp_index = 0;
+    private static void triplePartionMerger(int[] array, int lowBound, int left, int right, int highBound){
+        int first = lowBound;
+        int second = left;
+        int third = right;
+
         int[] temp_holder = new int[highBound - lowBound + 1];
-
-        while(left_index <= middle && right_index <= highBound){
-            if(array[left_index] < array[right_index]){
-                temp_holder[temp_index++] = array[left_index++];
+        int main_index = 0;
+        while(first < left && second < right && third < highBound){
+            if(array[first] < array[second]){
+                if(array[first] < array[third]){
+                    temp_holder[main_index] = array[first];
+                    first++;
+                } else {
+                    temp_holder[main_index] = array[third];
+                    third++;
+                }
             } else {
-                temp_holder[temp_index++] = array[right_index++];
+                if(array[second] < array[third]){
+                    temp_holder[main_index] = array[second];
+                    second++;
+                } else {
+                    temp_holder[main_index] = array[third];
+                    third++;
+                }
             }
+            main_index++;
         }
-
-        while(left_index <= middle){
-            temp_holder[temp_index++] = array[left_index++];
+        while(first < left && second < right){
+            if(array[first] < array[second]){
+                temp_holder[main_index] = array[first];
+                first++;
+            } else {
+                temp_holder[main_index] = array[second];
+                second++;
+            }
+            main_index++;
         }
-        while(right_index <= highBound){
-            temp_holder[temp_index++] = array[right_index++];
+        while(second < right && third < highBound){
+            if(array[second] < array[third]){
+                temp_holder[main_index] = array[second];
+                second++;
+            } else{
+                temp_holder[main_index] = array[third];
+                third++;
+            }
+            main_index++;
         }
-
+        while(third < highBound && first < left){
+            if(array[first] < array[third]){
+                temp_holder[main_index] = array[first];
+                first++;
+            } else {
+                temp_holder[main_index] = array[third];
+                third++;
+            }
+            main_index++;
+        }
+        while(first < left){
+            temp_holder[main_index] = array[first];
+            first++;
+            main_index++;
+        }
+        while(second < right){
+            temp_holder[main_index] = array[second];
+            second++;
+            main_index++;
+        }
+        while(third < highBound){
+            temp_holder[main_index] = array[third];
+            third++;
+            main_index++;
+        }
         for(int x = lowBound, k = 0; x <=highBound;x++,k++){
             array[x] = temp_holder[k];
         }
@@ -76,9 +125,5 @@ public class Sorter {
             }
             array[before+1] = current;
         }
-    }
-
-    private static void insertionSorter(){
-
     }
 }

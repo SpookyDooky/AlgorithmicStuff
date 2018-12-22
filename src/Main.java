@@ -36,10 +36,6 @@ public class Main {
         long endTime = System.currentTimeMillis();
         double finalTime = (endTime - startTime) / 1000.0;
 
-        //for(int x = 0; x < randomOrdered.length;x++){
-        //    System.out.println(randomOrdered[x]);
-        //}
-
         System.out.println(finalTime);
     }
 }
