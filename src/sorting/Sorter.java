@@ -1,11 +1,8 @@
 package sorting;
 
-import java.util.ArrayList;
-
 public class Sorter {
 
 
-    //1M numbers in 0.17 seconds
     public static void mergeSort(int[] array) {
         mergeDivider(array,0,array.length-1);
     }
@@ -17,6 +14,7 @@ public class Sorter {
             if((highBound - lowBound) <= 43){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
+                //Normal divide and conquer
                 mergeDivider(array, lowBound, middle);
                 mergeDivider(array, middle + 1, highBound);
 
@@ -27,9 +25,8 @@ public class Sorter {
         }
     }
 
-    //Merge method, efficiency is O(n)
+    //Merge method
     private static void mergeSortMerger(int[] array, int lowBound, int middle, int highBound) {
-
         int left_index = lowBound, right_index = middle + 1,temp_index = 0;
         int[] temp_holder = new int[highBound - lowBound + 1];
 
