@@ -12,7 +12,7 @@ public class Sorter {
             int iFirst = (highBound - lowBound)/3 + lowBound;
             int iSecond =(highBound - iFirst)/2 + iFirst;
 
-            if((highBound - lowBound) <= -1){
+            if((highBound - lowBound) <= 43){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 //Normal divide and conquer
