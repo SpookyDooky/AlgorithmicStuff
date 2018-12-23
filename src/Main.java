@@ -10,8 +10,6 @@ public class Main {
         int[] randomOrdered = new int[100000000];
         Random rand = new Random();
 
-        System.out.println("STARTING SORT");
-
         double totalTime = 0;
 
         //for(int y = 0; y < 1;y++) {
@@ -30,12 +28,17 @@ public class Main {
             randomOrdered[x] = rand.nextInt((50 - 1) + 1) + 1;
         }
 
+        System.out.println("STARTING SORT");
         long startTime = System.currentTimeMillis();
 
         Sorter.mergeSort(randomOrdered);
+
         long endTime = System.currentTimeMillis();
         double finalTime = (endTime - startTime) / 1000.0;
 
+        //for(int x = 0; x < randomOrdered.length;x++){
+        //    System.out.println(randomOrdered[x]);
+        //}
         System.out.println(finalTime);
     }
 }

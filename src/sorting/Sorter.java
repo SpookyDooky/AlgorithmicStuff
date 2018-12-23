@@ -2,7 +2,6 @@ package sorting;
 
 public class Sorter {
 
-
     public static void mergeSort(int[] array) {
         mergeDivider2(array,0,array.length-1);
     }
@@ -97,12 +96,23 @@ public class Sorter {
             third++;
             main_index++;
         }
-        for(int x = lowBound, k = 0; x <=highBound;x++,k++){
+        for(int x = lowBound, k = 0; x <highBound;x++,k++){
             array[x] = temp_holder[k];
         }
     }
 
     private static void mergeSortInsertionSortSpeedUp(int[] array, int left, int right){
+        if(left == right){
+            return;
+        } else if(left + 1 == right){
+            if(array[left] > array[right]){
+                int temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
+            }
+            return;
+        }
+
         for(int x = left; x <= right;x++){
             int temp = array[x];
             int before = x - 1;
