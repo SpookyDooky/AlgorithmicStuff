@@ -11,7 +11,7 @@ public class Sorter {
             int iFirst = (highBound - lowBound)/3 + lowBound;
             int iSecond =(highBound - iFirst)/2 + iFirst;
 
-            if((highBound - lowBound) <= 43){
+            if((highBound - lowBound) <= 38){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 //Normal divide and conquer
@@ -113,15 +113,24 @@ public class Sorter {
             return;
         }
 
-        for(int x = left; x <= right;x++){
-            int temp = array[x];
-            int before = x - 1;
-            while(before >= left && array[before] > temp){
-                array[before+1] = array[before];
-                before--;
-            }
-            array[before+1] = temp;
+        for(int x = left + 1; x <= right;++x){
+            linearInsertion(array,left,x,array[x]);
         }
+    }
+
+    private static void linearInsertion(int[] array, int first, int last, int value){
+        if(value < array[first]){
+            while(first != last--){
+                array[last + 1] = array[last];
+                array[first] = value;
+            }
+        } else unguarded_linear_insert(array,last,value);
+    }
+
+    private static void unguarded_linear_insert(int[] array, int last, int value){
+        int previous = last;
+        while(value < array[--previous]) array[last--] = array[previous];
+        array[last] = value;
     }
 
     public static void insertionSort(int[] array){
