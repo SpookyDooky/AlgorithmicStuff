@@ -1,7 +1,15 @@
 package sorting;
 
+/**
+ * Utility tool that can be used to sort lists/arrays
+ */
 public class Sorter {
 
+    /**
+     * Merge sort, with a dual-pivot implementation containing a insertion sort speed up for sub arrays
+     * In the future I might improve the memory usage of merge sort
+     * @param array
+     */
     public static void mergeSort(int[] array) {
         mergeDivider2(array,0,array.length-1);
     }
@@ -40,15 +48,14 @@ public class Sorter {
                     temp_holder[main_index] = array[third];
                     third++;
                 }
-            } else {
-                if(array[second] < array[third]){
+            } else if(array[second] < array[third]){
                     temp_holder[main_index] = array[second];
                     second++;
-                } else {
-                    temp_holder[main_index] = array[third];
-                    third++;
-                }
+            } else {
+                temp_holder[main_index] = array[third];
+                third++;
             }
+
             main_index++;
         }
         while(first < left && second < right){
@@ -144,5 +151,18 @@ public class Sorter {
             }
             array[before+1] = current;
         }
+    }
+
+    //Dual pivot quicksort
+    public static void quickSort(int[] array){
+
+    }
+
+    private static void quickSortDriver(int[] array, int low, int high){
+
+    }
+
+    private static int quickSortPartioner(int[] array, int low, int high){
+        return 0;
     }
 }
