@@ -44,14 +44,14 @@ public class GeneticAlgorithm {
         }
     }
 
-    private ArrayList<int[]> initializePopulation(int[] beginSequence){
-        ArrayList<int[]> result = new ArrayList<>();
+    private int[][] initializePopulation(int[] beginSequence){
+        int[][] population = new int[populationSize][beginSequence.length];
         for(int x = 0; x < populationSize;x++){
             int[] shuffleMe = beginSequence;
             shuffle(shuffleMe);
-            result.add(shuffleMe);
+            population[x] = shuffleMe;
         }
-        return result;
+        return population;
     }
 
     public int findOptimal(int[][] distances, int distancesToStart[], int distancesToEnd[]){
@@ -60,25 +60,24 @@ public class GeneticAlgorithm {
         this.distanceEnd = distancesToEnd;
         int sequenceSize = distances.length;
         int[] beginSequence = initializeSeq(sequenceSize);
-        ArrayList<int[]> population = initializePopulation(beginSequence);
+        int[][] population = initializePopulation(beginSequence);
 
-        System.out.println(population.size());
         return evolutionDriver(population);
     }
 
-    private int evolutionDriver(ArrayList<int[]> population){
-        ArrayList<int[]> currentPopulation = population;
+    private int evolutionDriver(int[][] population){
+        int[][] currentPopulation = population;
         for(int x = 0; x < generations;x++){
             currentPopulation = evolve(currentPopulation);
-            System.out.println("GENERATION: " + x + " , FITTEST: " + fitness(findFittest(currentPopulation)));
+            System.out.println("GENERATION: " + x + " ,FITTEST: " + fitness(findFittest(currentPopulation)));
         }
 
         return fitness(findFittest(currentPopulation));
     }
 
-    private ArrayList<int[]> evolve(ArrayList<int[]> population){
-        ArrayList<int[]> newPopulation = new ArrayList<>();
-        newPopulation.add(findFittest(population)); //Elitism
+    private int[][] evolve(int[][] population){
+        int[][] newPopulation = new int[populationSize][population[0].length];
+        newPopulation[0] = findFittest(population);
 
         for(int x = 1; x < populationSize;x++){
             int[] parent1 = hostTournament(population);
@@ -86,9 +85,8 @@ public class GeneticAlgorithm {
 
             int[] child = crossOverX(parent1,parent2);
             mutateX(child);
-            newPopulation.add(child);
+            newPopulation[x] = child;
         }
-
         return newPopulation;
     }
 
@@ -151,22 +149,22 @@ public class GeneticAlgorithm {
         return fitness;
     }
 
-    private int[] hostTournament(ArrayList<int[]> population){
-        ArrayList<int[]> tournamentSelection = new ArrayList<>();
+    private int[] hostTournament(int[][] population){
+        int[][] tournamentSelection = new int[tournamentSize][population[0].length];
 
         for(int x = 0; x < tournamentSize;x++){
             int randomIndex = (int)(Math.random() * (populationSize - 1));
-            tournamentSelection.add(population.get(randomIndex));
+            tournamentSelection[x] = population[randomIndex];
         }
 
         return findFittest(tournamentSelection);
     }
 
-    private int[] findFittest(ArrayList<int[]> population){
+    private int[] findFittest(int[][] population){
         int fittest = Integer.MAX_VALUE;
         int[] fittestSeq = new int[1];
-        for(int x = 0; x < population.size();x++){
-            int[] current = population.get(x);
+        for(int x = 0; x < population.length;x++){
+            int[] current = population[x];
             int currentFitness = fitness(current);
             if(currentFitness < fittest){
                 fittest = currentFitness;
