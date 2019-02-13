@@ -7,15 +7,28 @@ public class GeneticAlgorithm {
     private int populationSize;
     private int generations;
     private int tournamentSize;
-
     private int[][] distances;
     private int[] distanceStart;
     private int[] distanceEnd;
+
+    private int mutationRate;
+    private int crossOverRate;
+
+    private long mutationTime;
+    private long crossTime;
+    private long tournamentTime;
+    private long findFittestTime;
+
+    private int[] mem;
 
     public GeneticAlgorithm(int populationSize, int generations, int tournamentSize){
         this.populationSize = populationSize;
         this.generations = generations;
         this.tournamentSize = tournamentSize;
+
+        this.mutationRate = 1;
+        this.crossOverRate = 1;
+        this.mem = new int[generations];
     }
 
     public int getPopulationSize(){
@@ -67,10 +80,17 @@ public class GeneticAlgorithm {
 
     private int evolutionDriver(int[][] population){
         int[][] currentPopulation = population;
+        long startTime = System.currentTimeMillis();
         for(int x = 0; x < generations;x++){
             currentPopulation = evolve(currentPopulation);
-            System.out.println("GENERATION: " + x + " ,FITTEST: " + fitness(findFittest(currentPopulation)));
+            int fittest = fitness(findFittest(currentPopulation));
+            System.out.println("GENERATION: " + x + " ,FITTEST: " + fittest);
+            mem[x] = fittest;
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("TOTAL TIME   : " + (endTime - startTime)/1000.0);
+        System.out.println("CROSS TIME   : " + crossTime/1000.0);
+        System.out.println("MUTATION TIME: " + mutationTime/1000.0);
 
         return fitness(findFittest(currentPopulation));
     }
@@ -91,6 +111,7 @@ public class GeneticAlgorithm {
     }
 
     private int[] crossOverX(int[] parent1, int[] parent2){
+        long startTime = System.currentTimeMillis();
         int index1 = (int)(Math.random() * (parent1.length - 1));
         int index2 = (int)(Math.random() * (parent2.length - 1));
         int[] offSpring = new int[parent1.length];
@@ -107,26 +128,28 @@ public class GeneticAlgorithm {
 
         Arrays.sort(used);
         int index = 0;
-        for(int x = 0; x < parent2.length;x++){
-            int proposed = parent2[x];
-            int searched = Arrays.binarySearch(used,proposed);
+        for(int x = 0; x < parent2.length;x++){ ;
+            int searched = Arrays.binarySearch(used,parent2[x]);
             if((index < crossStart || index >= crossEnd) && index < parent2.length){
                 if(searched < 0){
-                    offSpring[index] = proposed;
+                    offSpring[index] = parent2[x];
                     index++;
                 }
             } else {
                 index = crossEnd;
                 if(searched < 0){
-                    offSpring[index] = proposed;
+                    offSpring[index] = parent2[x];
                     index++;
                 }
             }
         }
+        long endTime = System.currentTimeMillis();
+        crossTime += (endTime - startTime);
         return offSpring;
     }
 
     private void mutateX(int[] theSeq){
+        long startTime = System.currentTimeMillis();
         int index_1 = (int)(Math.random() * (theSeq.length - 1));
         int index_2 = (int)(Math.random() * (theSeq.length - 1));
 
@@ -137,6 +160,8 @@ public class GeneticAlgorithm {
         } else {
             mutateX(theSeq);
         }
+        long endTime = System.currentTimeMillis();
+        mutationTime += (endTime - startTime);
     }
 
     private int fitness(int[] seq){

@@ -23,7 +23,7 @@ public class Tester {
             }
         }
 
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(200,500,30);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(50,2000,15);
         int result = geneticAlgorithm.findOptimal(testData,testDataStart,testDataEnd);
     }
 }
