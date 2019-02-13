@@ -1,8 +1,15 @@
 package sorting;
 
+/**
+ * Utility tool that can be used to sort lists/arrays
+ */
 public class Sorter {
 
-
+    /**
+     * Merge sort, with a dual-pivot implementation containing a insertion sort speed up for sub arrays
+     * In the future I might improve the memory usage of merge sort
+     * @param array
+     */
     public static void mergeSort(int[] array) {
         mergeDivider2(array,0,array.length-1);
     }
@@ -12,7 +19,7 @@ public class Sorter {
             int iFirst = (highBound - lowBound)/3 + lowBound;
             int iSecond =(highBound - iFirst)/2 + iFirst;
 
-            if((highBound - lowBound) <= 43){
+            if((highBound - lowBound) <= 38){
                 mergeSortInsertionSortSpeedUp(array,lowBound,highBound);
             } else {
                 //Normal divide and conquer
@@ -41,15 +48,14 @@ public class Sorter {
                     temp_holder[main_index] = array[third];
                     third++;
                 }
-            } else {
-                if(array[second] < array[third]){
+            } else if(array[second] < array[third]){
                     temp_holder[main_index] = array[second];
                     second++;
-                } else {
-                    temp_holder[main_index] = array[third];
-                    third++;
-                }
+            } else {
+                temp_holder[main_index] = array[third];
+                third++;
             }
+
             main_index++;
         }
         while(first < left && second < right){
@@ -97,21 +103,41 @@ public class Sorter {
             third++;
             main_index++;
         }
-        for(int x = lowBound, k = 0; x <=highBound;x++,k++){
+        for(int x = lowBound, k = 0; x <highBound;x++,k++){
             array[x] = temp_holder[k];
         }
     }
 
     private static void mergeSortInsertionSortSpeedUp(int[] array, int left, int right){
-        for(int x = left; x <= right;x++){
-            int temp = array[x];
-            int before = x - 1;
-            while(before >= left && array[before] > temp){
-                array[before+1] = array[before];
-                before--;
+        if(left == right){
+            return;
+        } else if(left + 1 == right){
+            if(array[left] > array[right]){
+                int temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
             }
-            array[before+1] = temp;
+            return;
         }
+
+        for(int x = left + 1; x <= right;++x){
+            linearInsertion(array,left,x,array[x]);
+        }
+    }
+
+    private static void linearInsertion(int[] array, int first, int last, int value){
+        if(value < array[first]){
+            while(first != last--){
+                array[last + 1] = array[last];
+                array[first] = value;
+            }
+        } else unguarded_linear_insert(array,last,value);
+    }
+
+    private static void unguarded_linear_insert(int[] array, int last, int value){
+        int previous = last;
+        while(value < array[--previous]) array[last--] = array[previous];
+        array[last] = value;
     }
 
     public static void insertionSort(int[] array){
@@ -125,5 +151,18 @@ public class Sorter {
             }
             array[before+1] = current;
         }
+    }
+
+    //Dual pivot quicksort
+    public static void quickSort(int[] array){
+
+    }
+
+    private static void quickSortDriver(int[] array, int low, int high){
+
+    }
+
+    private static int quickSortPartioner(int[] array, int low, int high){
+        return 0;
     }
 }
